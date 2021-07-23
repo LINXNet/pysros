@@ -1,13 +1,24 @@
 #!/Users/riccardo/virtualenvs/pysros/bin/python
 import argparse
-import sys
-import yaml
 import logging
 import textwrap
 import time
+
+import yaml
+
+import napalm
+
 logging.basicConfig()
 #logging.getLogger('').setLevel(logging.DEBUG)
-import napalm
+
+
+def time_func(func):
+    def wrapper():
+        t1 = time.time()
+        func()
+        t2 = time.time()
+        print(f'Function: "{func.__name__}", completed in: "{t2 - t1}" s')
+    return wrapper
 
 
 def parse_and_get_args():
@@ -105,51 +116,46 @@ def parse_and_get_args():
   return args
 
 
+@time_func
 def main():
-  args = parse_and_get_args()
-  config_path = args.config_file_path
-  switch_name = args.hostname
-  operation = args.action
-  running_conf_path = args.save_config_file_path
-  candidate_conf_path = args.candidate_file_path
-  format = args.format
+    args = parse_and_get_args()
+    config_path = args.config_file_path
+    switch_name = args.hostname
+    operation = args.action
+    running_conf_path = args.save_config_file_path
+    candidate_conf_path = args.candidate_file_path
+    format = args.format
 
-  with open(config_path) as f:
-    config = yaml.safe_load(f)['config']
+    with open(config_path) as f:
+        config = yaml.safe_load(f)['config']
 
+    driver = napalm.get_network_driver('sros')
+    with driver(hostname=switch_name,
+                username=config['username'],
+                timeout=180,
+                password=config['password']) as device:
+        if operation == 'running':
+            result = device.get_config(retrieve='running',
+                                      optional_args={"format": format}
+                                      )
+            with open(running_conf_path, 'w') as f:
+                f.write(result['running'])
 
-  driver = napalm.get_network_driver('sros')
-  t1 = time.time()
-  with driver(hostname=switch_name,
-              username=config['username'],
-              timeout=180,
-              password=config['password']) as device:
-    if operation == 'running':
-      result = device.get_config(retrieve='running',
-                                 optional_args={"format": format}
-                                 )
-      with open(running_conf_path, 'w') as f:
-        f.write(result['running'])
+        elif operation == 'merge':
+            config = candidate_conf_path
+            device.load_merge_candidate(filename=config)
+            device.commit_config()
 
-    elif operation == 'merge':
-      config = candidate_conf_path
-      device.load_merge_candidate(filename=config)
-      device.commit_config()
+        elif operation == 'replace':
+            config = candidate_conf_path
+            device.load_replace_candidate(filename=config)
+            device.commit_config()
 
-    elif operation == 'replace':
-      config = candidate_conf_path
-      device.load_replace_candidate(filename=config)
-      device.commit_config()
-
-    elif operation == 'diff':
-      config = candidate_conf_path
-      device.load_replace_candidate(filename=config)
-      print(device.compare_config(optional_args={"json_format": True}))
-
-  t2 = time.time()
-
-  print(t2-t1)
+        elif operation == 'diff':
+            config = candidate_conf_path
+            device.load_replace_candidate(filename=config)
+            print(device.compare_config(optional_args={"json_format": True}))
 
 
 if __name__ == '__main__':
-  main()
+    main()

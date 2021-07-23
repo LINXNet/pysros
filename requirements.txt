@@ -1,0 +1,2 @@
+napalm=3.3.1
+git+https://github.com/napalm-automation-community/napalm-sros.git@master
