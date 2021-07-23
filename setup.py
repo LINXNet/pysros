@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-""" Python library to remotely manage/automate
- switches running OcNOS operating system. """
+""" Python simple CLI to interact with Nokia Napalm driver. """
 
 from setuptools import setup, find_packages
 
