@@ -142,18 +142,15 @@ def main():
                 f.write(result['running'])
 
         elif operation == 'merge':
-            config = candidate_conf_path
-            device.load_merge_candidate(filename=config)
+            device.load_merge_candidate(filename=candidate_conf_path)
             device.commit_config()
 
         elif operation == 'replace':
-            config = candidate_conf_path
-            device.load_replace_candidate(filename=config)
+            device.load_replace_candidate(filename=candidate_conf_path)
             device.commit_config()
 
         elif operation == 'diff':
-            config = candidate_conf_path
-            device.load_replace_candidate(filename=config)
+            device.load_replace_candidate(filename=candidate_conf_path)
             print(device.compare_config(optional_args={"json_format": True}))
 
 
