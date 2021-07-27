@@ -3,16 +3,21 @@
 
 from setuptools import setup, find_packages
 
-with open('requirements.txt', 'r') as requirements:
-    install_requires = [line.strip() for line in requirements if line and not line.startswith('#')]
-
 version = '0.0.1'
 setup(
     name='pysros',
     version=version,
     py_modules=['pysros'],
     packages=find_packages(),
-    install_requires=install_requires,
+    dependency_links=[
+        'https://github.com/napalm-automation-community/'
+        'napalm-sros.git@master=napalm-sros'
+    ],
+    install_requires=[
+        "napalm==3.3.1",
+        "napalm-sros",
+        "yaml"
+    ],
     include_package_data=True,
     description='Python simple CLI to interact with Nokia Napalm Driver',
     author='LINX',
