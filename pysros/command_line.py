@@ -1,11 +1,12 @@
-#!/Users/riccardo/virtualenvs/pysros/bin/python
+# Copyright (c) 2021 London Internet Exchange Ltd.
+
 import argparse
 import logging
 import textwrap
 import time
 
-import napalm
-import yaml
+import napalm   # pylint: disable=import-error
+import yaml     # pylint: disable=import-error
 
 logging.basicConfig()
 # logging.getLogger('').setLevel(logging.DEBUG)
