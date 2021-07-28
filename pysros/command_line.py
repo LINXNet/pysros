@@ -140,6 +140,7 @@ def main():
                 timeout=180,
                 password=config['password']) as device:
         if operation == 'running':
+            # pylint: disable=unexpected-keyword-arg
             result = device.get_config(retrieve='running',
                                        optional_args={"format": config_format}
                                        )
@@ -156,6 +157,7 @@ def main():
 
         elif operation == 'diff':
             device.load_replace_candidate(filename=candidate_conf_path)
+            # pylint: disable=unexpected-keyword-arg
             print(device.compare_config(optional_args={"json_format": True}))
 
 

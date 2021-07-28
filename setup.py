@@ -9,14 +9,11 @@ setup(
     version=version,
     py_modules=['pysros'],
     packages=find_packages(),
-    dependency_links=[
-        'https://github.com/napalm-automation-community/'
-        'napalm-sros.git@master=napalm-sros'
-    ],
     install_requires=[
         "napalm==3.3.1",
-        "napalm-sros",
-        "yaml"
+        "napalm-sros@git+https://git@github.com/napalm-automation-community/"
+        "napalm-sros.git",
+        "PyYAML"
     ],
     include_package_data=True,
     description='Python simple CLI to interact with Nokia Napalm Driver',
