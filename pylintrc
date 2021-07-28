@@ -1,0 +1,24 @@
+[MASTER]
+extension-pkg-whitelist=lxml
+
+[MESSAGES CONTROL]
+disable=fixme,
+        no-value-for-parameter,
+        too-few-public-methods,
+        not-callable,
+        no-name-in-module,
+        argument-differ,
+        missing-module-docstring
+
+[BASIC]
+good-names=e,i,j,k
+# Enabling two chars variables
+argument-rgx=(([a-z_][a-z0-9_]{1,})|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+attr-rgx=(([a-z_][a-z0-9_]{1,})|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+variable-rgx=(([a-z_][a-z0-9_]{1,})|(_[a-z0-9_]*)|(__[a-z][a-z0-9_]+__))$
+
+[TYPECHECK]
+ignored-classes=optparse.Values,thread._local,_thread._local,linxapi.LinxClient
+
+[REPORTS]
+reports=yes
