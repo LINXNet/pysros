@@ -2,14 +2,12 @@
 
 import argparse
 import logging
+import sys
 import textwrap
 import time
 
 import napalm   # pylint: disable=import-error
 import yaml     # pylint: disable=import-error
-
-logging.basicConfig()
-# logging.getLogger('').setLevel(logging.DEBUG)
 
 
 def time_func(func):
@@ -100,22 +98,28 @@ def parse_and_get_args():
         '--verbosity',
         action='count',
         default=0,
+        dest='verbosity',
         help=textwrap.dedent("""
           Set logging verbose level. It accepts a number >= 0.
           The default value is 0,
           the minimal log besides stack backtrace is given;
-          Verbose level 1 enables debug level logging for pyocnos;
+          Verbose level 1 enables debug level logging for pysros;
           Verbose level 2 emits ncclient debug level logging as well.
 
           """)
     )
 
     args = parser.parse_args()
-    if any(action in args.action for action in
-            ['diff', 'replace', 'merge']) and not args.candidate_file_path:
+    if args.action in ['diff', 'replace', 'merge'] and not \
+            args.candidate_file_path:
         parser.error(
             "diff, replace and merge action requires -c,"
             " --candidate-file-path."
+        )
+    elif args.action == "running" and args.candidate_file_path:
+        parser.error(
+            '\nERROR: action: "running" and option: '
+            '"-c, --candidate-file-path" cannot be specified together\n'
         )
     return args
 
@@ -123,12 +127,14 @@ def parse_and_get_args():
 @time_func
 def main():
     """ Main function """
+    # pylint: disable=too-many-locals
     args = parse_and_get_args()
     config_path = args.config_file_path
     switch_name = args.hostname
     operation = args.action
     running_conf_path = args.save_config_file_path
     candidate_conf_path = args.candidate_file_path
+    verbosity = args.verbosity
     config_format = args.format
 
     with open(config_path) as config_file:
@@ -139,6 +145,22 @@ def main():
                 username=config['username'],
                 timeout=180,
                 password=config['password']) as device:
+        if verbosity:
+            console_handler = logging.StreamHandler(sys.stdout)
+            formatter = logging.Formatter(
+                '%(name)s | %(levelname)s |'
+                ' %(filename)s/%(funcName)s:%(lineno)d | %(message)s'
+            )
+            console_handler.setFormatter(formatter)
+            logging.getLogger('ncclient').addHandler(console_handler)
+
+            if int(verbosity) == 1:
+                logging.getLogger('ncclient').setLevel(logging.ERROR)
+            elif int(verbosity) == 2:
+                logging.getLogger('ncclient').setLevel(logging.INFO)
+            else:
+                logging.getLogger('ncclient').setLevel(logging.DEBUG)
+
         if operation == 'running':
             # pylint: disable=unexpected-keyword-arg
             result = device.get_config(retrieve='running',
