@@ -118,8 +118,8 @@ def parse_and_get_args():
         )
     elif args.action == "running" and args.candidate_file_path:
         parser.error(
-            '\nERROR: action: "running" and option: "-c, --candidate-file-path"' 
-            ' cannot be specified together\n'
+            '\nERROR: action: "running" and option: '
+            '"-c, --candidate-file-path" cannot be specified together\n'
         )
     return args
 
@@ -127,6 +127,7 @@ def parse_and_get_args():
 @time_func
 def main():
     """ Main function """
+    # pylint: disable=too-many-locals
     args = parse_and_get_args()
     config_path = args.config_file_path
     switch_name = args.hostname
@@ -159,7 +160,6 @@ def main():
                 logging.getLogger('ncclient').setLevel(logging.INFO)
             else:
                 logging.getLogger('ncclient').setLevel(logging.DEBUG)
-
 
         if operation == 'running':
             # pylint: disable=unexpected-keyword-arg
