@@ -25,7 +25,7 @@ setup(
     classifiers=[
          'Programming Language :: Python :: 3'
      ],
-    python_requires='~=3.6.6',
+    python_requires='~=3.0',
     entry_points={
         'console_scripts': ['pysros=pysros.command_line:main'],
     }
