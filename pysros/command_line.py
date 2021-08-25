@@ -137,7 +137,7 @@ def main():
     verbosity = args.verbosity
     config_format = args.format
 
-    with open(config_path) as config_file:
+    with open(config_path, encoding='utf-8') as config_file:
         config = yaml.safe_load(config_file)['config']
 
     driver = napalm.get_network_driver('sros')
@@ -166,7 +166,7 @@ def main():
             result = device.get_config(retrieve='running',
                                        optional_args={"format": config_format}
                                        )
-            with open(running_conf_path, 'w') as running:
+            with open(running_conf_path, 'w', encoding='utf-8') as running:
                 running.write(result['running'])
 
         elif operation == 'merge':
