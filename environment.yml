@@ -1,25 +1,20 @@
 name: pysros
 dependencies:
-  - _libgcc_mutex=0.1=main
-  - _openmp_mutex=4.5=1_gnu
-  - ca-certificates=2021.7.5=h06a4308_1
-  - certifi=2021.5.30=py36h06a4308_0
-  - ld_impl_linux-64=2.35.1=h7274673_9
-  - libffi=3.3=he6710b0_2
-  - libgcc-ng=9.3.0=h5101ec6_17
-  - libgomp=9.3.0=h5101ec6_17
-  - libstdcxx-ng=9.3.0=hd4cf53a_17
-  - ncurses=6.2=he6710b0_1
-  - openssl=1.1.1k=h27cfd23_0
+  - ca-certificates=2021.1.19
+  - certifi=2020.12.5
+  - libedit=3.1.20191231
+  - libffi=3.3
+  - ncurses=6.2
+  - openssl=1.1.1j
   - pip=20.0.2
-  - python=3.6.13=h12debd9_1
-  - readline=8.1=h27cfd23_0
-  - setuptools=52.0.0=py36h06a4308_0
-  - sqlite=3.36.0=hc218d9a_0
-  - tk=8.6.10=hbc83047_0
-  - wheel=0.37.0=pyhd3eb1b0_0
-  - xz=5.2.5=h7b6447c_0
-  - zlib=1.2.11=h7b6447c_3
+  - python=3.8.8
+  - readline=8.1
+  - setuptools=52.0.0
+  - sqlite=3.33.0
+  - tk=8.6.10
+  - wheel=0.36.2
+  - xz=5.2.5
+  - zlib=1.2.11
   - pip:
     - aiocontextvars==0.2.2
     - charset-normalizer==2.0.4
@@ -51,5 +46,5 @@ dependencies:
     - urllib3==1.26.6
     - xmltodict==0.12.0
     - yamlordereddictloader==0.4.0
-    - git+https://git@github.com/napalm-automation-community/napalm-sros
+    - https://dist-u.linx.net/linx-python/napalm-sros/napalm-sros-0.1.0.ed4577.tar.gz
     - https://dist-u.linx.net/linx-python/pysros/pysros-0.0.2.tar.gz
