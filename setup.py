@@ -3,7 +3,7 @@
 
 from setuptools import setup, find_packages
 
-version = '0.0.2'
+version = '0.0.3'
 setup(
     name='pysros',
     version=version,
@@ -11,8 +11,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         "napalm==3.3.1",
-        "napalm-sros@git+https://git@github.com/napalm-automation-community/"
-        "napalm-sros.git",
+        # git+https://git@github.com/napalm-automation-community/
+        "napalm-sros",
         "PyYAML"
     ],
     include_package_data=True,

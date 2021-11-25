@@ -46,5 +46,5 @@ dependencies:
     - urllib3==1.26.6
     - xmltodict==0.12.0
     - yamlordereddictloader==0.4.0
-    - https://dist-u.linx.net/linx-python/napalm-sros/napalm-sros-0.1.0.ed4577.tar.gz
+    - napalm-sros==1.0.0.ffc999
     - https://dist-u.linx.net/linx-python/pysros/pysros-0.0.2.tar.gz
