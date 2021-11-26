@@ -47,4 +47,4 @@ dependencies:
     - xmltodict==0.12.0
     - yamlordereddictloader==0.4.0
     - napalm-sros==1.0.0.ffc999
-    - https://dist-u.linx.net/linx-python/pysros/pysros-0.0.2.tar.gz
+    - https://dist-u.linx.net/linx-python/pysros/pysros-0.0.3.tar.gz
