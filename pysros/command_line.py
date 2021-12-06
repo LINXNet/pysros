@@ -144,6 +144,8 @@ def main():
     with driver(hostname=switch_name,
                 username=config['username'],
                 timeout=180,
+                optional_args={'sros_get_format': config_format,
+                               'sros_compare_format': 'json'},
                 password=config['password']) as device:
         if verbosity:
             console_handler = logging.StreamHandler(sys.stdout)
@@ -163,9 +165,7 @@ def main():
 
         if operation == 'running':
             # pylint: disable=unexpected-keyword-arg
-            result = device.get_config(retrieve='running',
-                                       optional_args={"format": config_format}
-                                       )
+            result = device.get_config(retrieve='running')
             with open(running_conf_path, 'w', encoding='utf-8') as running:
                 running.write(result['running'])
 
@@ -180,7 +180,7 @@ def main():
         elif operation == 'diff':
             device.load_replace_candidate(filename=candidate_conf_path)
             # pylint: disable=unexpected-keyword-arg
-            print(device.compare_config(optional_args={"json_format": True}))
+            print(device.compare_config())
 
 
 if __name__ == '__main__':
